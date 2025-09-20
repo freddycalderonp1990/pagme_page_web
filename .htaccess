@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^(www\.)?underpropagme\.xyz$
+RewriteRule ^(.*)$ /page_web/$1 [L]
