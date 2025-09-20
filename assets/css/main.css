@@ -26,7 +26,7 @@
   --default-color: #444444;       /* Texto normal */
   --heading-color: #167D42;       /* Verde principal títulos */
   --accent-color: #167D42;        /* Verde principal botones/links */
-  --accent-hover: #125E32;        /* Verde más oscuro hover */
+  --accent-hover: #ffcc00;        /* Verde más oscuro hover select nav */
   --surface-color: #ffffff;       /* Fondos internos */
   --contrast-color: #ffffff;      /* Texto sobre verde */
   --secondary-color: #6c757d;     /* Gris secundario */
@@ -1818,6 +1818,24 @@ section,
     margin: 0 auto 30px auto;
   }
 }
+
+
+/* Forzar que todos los items tengan la misma altura
+   y el botón quede siempre alineado al fondo */
+.pricing .pricing-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing .pricing-item ul {
+  flex-grow: 1; /* la lista ocupa el espacio sobrante */
+}
+
+.pricing .pricing-item .buy-btn {
+  margin-top: auto; /* empuja el botón hacia abajo */
+  align-self: center; /* centra el botón en horizontal */
+}
+
 
 /*--------------------------------------------------------------
 # Testimonials Section

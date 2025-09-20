@@ -53,6 +53,7 @@
           <li><a href="#about">Acerca de</a></li>
           <li><a href="#services">Servicios</a></li>
           <li><a href="#pricing">Precios</a></li>
+          <li><a href="#faq-2">FAQ</a></li>
           <li><a href="#contact">Contactos</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -86,64 +87,6 @@
 
     </section><!-- /Hero Section -->
 
-    <!-- Clients Section -->
-    <section id="clients" class="clients section light-background">
-
-      <div class="container" data-aos="zoom-in">
-
-        <div class="swiper init-swiper">
-          <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              },
-              "breakpoints": {
-                "320": {
-                  "slidesPerView": 2,
-                  "spaceBetween": 40
-                },
-                "480": {
-                  "slidesPerView": 3,
-                  "spaceBetween": 60
-                },
-                "640": {
-                  "slidesPerView": 4,
-                  "spaceBetween": 80
-                },
-                "992": {
-                  "slidesPerView": 5,
-                  "spaceBetween": 120
-                },
-                "1200": {
-                  "slidesPerView": 6,
-                  "spaceBetween": 120
-                }
-              }
-            }
-          </script>
-          <div class="swiper-wrapper align-items-center">
-            <div class="swiper-slide"><img src="assets/img/clients/clients-1.webp" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/clients-2.webp" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/clients-3.webp" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/clients-4.webp" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/clients-5.webp" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/clients-6.webp" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/clients-7.webp" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/clients-8.webp" class="img-fluid" alt=""></div>
-          </div>
-        </div>
-
-      </div>
-
-    </section><!-- /Clients Section -->
 
     <!-- About Section -->
     <section id="about" class="about section">
@@ -170,7 +113,7 @@
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
             <p> Diseñamos y desarrollamos apps intuitivas, rápidas y seguras que potencian tu negocio. Utilizamos lo mejor en tecnología, combinando Bootstrap, frameworks multiplataforma y soluciones de vanguardia, lo que garantiza que cada producto sea moderno, escalable y altamente funcional. </p>
-            <a href="https://play.google.com/store/apps/details?id=underpro.ecuador.pagme_underpro" class="read-more"><span>Ver App PagMe</span><i class="bi bi-arrow-right"></i></a>
+            <a href="https://play.google.com/store/apps/details?id=underpro.ecuador.pagme_underpro" class="read-more"><span>PagMe</span><i class="bi bi-arrow-right"></i></a>
           </div>
 
         </div>
@@ -492,95 +435,80 @@
 
       <div class="container">
 
-      <div class="row gy-3">
+    <div class="row gy-3">
 
-        <!-- Plan Gratis -->
-        <div class="col-lg-3" data-aos="zoom-in" data-aos-delay="100">
-          <div class="pricing-item">
-            <h3>Plan Gratis</h3>
-            <h4><sup>$</sup>0<span> / mes</span></h4>
-            <p><em>Prueba PagMe sin riesgos</em></p>
-            <ul>
-              <li><i class="bi bi-check"></i> <span>Acceso completo durante los primeros 30 días</span></li>
-              <li><i class="bi bi-check"></i> <span>Gana más días <strong>viendo anuncios</strong></span></li>
-              <li><i class="bi bi-check"></i> <span>Explora todas las opciones premium</span></li>
-              <li><i class="bi bi-check"></i> <span>Ideal para conocer la app antes de pagar</span></li>
-              <li class="na"><i class="bi bi-x"></i> <span>Incluye anuncios publicitarios</span></li>
-              <li class="na"><i class="bi bi-x"></i> <span>Restricciones después del periodo inicial</span></li>
-            </ul>
-      
+      <!-- Plan Gratis -->
+      <div class="col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+        <div class="pricing-item h-100">
+          <span class="badge bg-secondary mb-2">Prueba Gratis</span>
+          <h3>Plan Gratis</h3>
+          <h4><sup>$</sup>0<span> / mes</span></h4>
+          <p><em>Empieza sin riesgo y prueba todas las funciones</em></p>
+          <ul>
+            <li><i class="bi bi-check"></i> <span>Acceso completo durante los primeros 30 días</span></li>
+            <li><i class="bi bi-check"></i> <span>Gana más días <strong>viendo anuncios</strong></span></li>
+            <li class="na"><i class="bi bi-x"></i> <span>Incluye anuncios publicitarios</span></li>
+            <li class="na"><i class="bi bi-x"></i> <span>Restricciones después del periodo inicial</span></li>
+          </ul>
+          <a href="javascript:void(0)" onclick="enviarWhatsApp('Plan Gratis $0')" class="buy-btn">✨ Empieza Gratis</a>
+        </div>
+      </div><!-- End Pricing Item -->
+
+      <!-- Promoción Clientes Nuevos -->
+      <div class="col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="200">
+        <div class="pricing-item featured h-100">
+          <span class="badge bg-danger mb-2">🔥 Más Vendido</span>
+          <h3>Clientes Nuevos</h3>
+          <h4><sup>$</sup>6<span> / 3 meses</span></h4>
+         <p><em>Oferta de bienvenida válida solo durante tus primeros 30 días de registro</em></p>
+  
+          <ul>
+            <li><i class="bi bi-check"></i> <span>Acceso completo a todas las funciones</span></li>
+            <li><i class="bi bi-check"></i> <span>Precio especial para nuevos clientes</span></li>
+            <li><i class="bi bi-check"></i> <span>Soporte técnico incluido</span></li>
+            <li><i class="bi bi-check"></i> <span>Actualizaciones incluidas</span></li>
+          </ul>
+          <a href="javascript:void(0)" onclick="enviarWhatsApp('Promoción Clientes Nuevos: Pagas $6 y recibes 3 meses')" class="buy-btn">🔥 Aprovechar Promo</a>
+        </div>
+      </div><!-- End Pricing Item -->
+
+      <!-- Plan Normal -->
+      <div class="col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="300">
+        <div class="pricing-item h-100">
+          <h3>Plan Normal</h3>
+          <h4><sup>$</sup>8<span> / mes</span></h4>
+          <p><em>Flexibilidad sin compromisos</em></p>
+          <ul>
+            <li><i class="bi bi-check"></i> <span>Acceso ilimitado a todas las funciones</span></li>
+            <li><i class="bi bi-check"></i> <span>Soporte técnico 24/7</span></li>
+            <li><i class="bi bi-check"></i> <span>Sin anuncios publicitarios</span></li>
+            <li><i class="bi bi-check"></i> <span>Actualizaciones automáticas incluidas</span></li>
+          </ul>
+          <a href="javascript:void(0)" onclick="enviarWhatsApp('Plan Normal $8 Dólares Mensuales')" class="buy-btn">✅ Suscribirme</a>
+        </div>
+      </div><!-- End Pricing Item -->
+
+      <!-- Promo Especial -->
+      <div class="col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="400">
+        <div class="pricing-item featured h-100">
+          <span class="badge bg-success mb-2">💎 Mejor Opción</span>
+          <h3>Promo Especial</h3>
+          <h4><sup>$</sup>45<span> / 12 meses</span></h4>
+          <p><em>Ahorra más del 50% con el plan anual</em></p>
+          <ul>
+            <li><i class="bi bi-check"></i> <span>Compra 6 meses y recibe 6 gratis</span></li>
+            <li><i class="bi bi-check"></i> <span>Equivale a solo <strong>$3.75 al mes</strong></span></li>
+            <li><i class="bi bi-check"></i> <span>Acceso completo a todas las funciones</span></li>
+            <li><i class="bi bi-check"></i> <span>Perfecto para clientes frecuentes</span></li>
+            <li><i class="bi bi-check"></i> <span>Soporte prioritario y actualizaciones</span></li>
+          </ul>
+          <a href="javascript:void(0)" onclick="enviarWhatsApp('Plan Promo Especial $45 - 12 Meses')" class="buy-btn">💎 Obtener Promo</a>
+        </div>
+      </div><!-- End Pricing Item -->
+
+    </div>
 
 
-            <a href="javascript:void(0)" 
-            onclick="enviarWhatsApp('Plan Gratis $0')" 
-            class="buy-btn">
-            ✨ Empieza Gratis
-          </a>
-          </div>
-        </div><!-- End Pricing Item -->
-
-        <!-- Promoción Clientes Nuevos -->
-        <div class="col-lg-3" data-aos="zoom-in" data-aos-delay="200">
-          <div class="pricing-item featured">
-            <h3>Clientes Nuevos</h3>
-            <h4><sup>$</sup>6<span> </span></h4>
-            <p><em>Promoción de Bienvenida: Paga solo $6 y disfruta de 3 meses completos con todas las funciones premium. Oferta válida si te suscribes dentro de los primeros 3 meses desde tu registro.</em></p>
-            <ul>
-              <li><i class="bi bi-check"></i> <span>Acceso completo a todas las funciones</span></li>
-              <li><i class="bi bi-check"></i> <span>Precio especial por tiempo limitado</span></li>
-              <li><i class="bi bi-check"></i> <span>Soporte técnico  incluido</span></li>
-              <li><i class="bi bi-check"></i> <span>Actualizaciones Incluidas</span></li>
-            </ul>
-                  <a href="javascript:void(0)" 
-            onclick="enviarWhatsApp('Promoción Clientes Nuevos Pagas $6 y recibe 3 meses')" 
-            class="buy-btn">
-              🔥 Aprovechar Promo
-            </a>
-          </div>
-        </div><!-- End Pricing Item -->
-
-        <!-- Plan Normal -->
-        <div class="col-lg-3" data-aos="zoom-in" data-aos-delay="300">
-          <div class="pricing-item">
-            <h3>Plan Normal</h3>
-            <h4><sup>$</sup>8<span> / mes</span></h4>
-            <p><em>El plan completo sin restricciones</em></p>
-            <ul>
-              <li><i class="bi bi-check"></i> <span>Acceso ilimitado a todas las funciones</span></li>
-              <li><i class="bi bi-check"></i> <span>Soporte técnico 24/7</span></li>
-              <li><i class="bi bi-check"></i> <span>Sin anuncios publicitarios</span></li>
-              <li><i class="bi bi-check"></i> <span>Actualizaciones automáticas incluidas</span></li>
-            </ul>
-                      <a href="javascript:void(0)" 
-            onclick="enviarWhatsApp('Plan Normal $8 Dolares Mensuales')" 
-             class="buy-btn">
-              ✅ Suscribirme
-            </a>
-          </div>
-        </div><!-- End Pricing Item -->
-
-        <!-- Promo Especial -->
-        <div class="col-lg-3" data-aos="zoom-in" data-aos-delay="400">
-          <div class="pricing-item">
-            <h3>Promo Especial</h3>
-            <h4><sup>$</sup>45<span> / 12 meses</span></h4>
-            <p><em>La opción más rentable</em></p>
-            <ul>
-              <li><i class="bi bi-check"></i> <span>Compra 6 meses y recibe 6 gratis</span></li>
-              <li><i class="bi bi-check"></i> <span>Equivalente a solo <strong>$3.75 al mes</strong></span></li>
-              <li><i class="bi bi-check"></i> <span>Acceso completo a todas las funciones</span></li>
-              <li><i class="bi bi-check"></i> <span>Perfecto para clientes frecuentes</span></li>
-              <li><i class="bi bi-check"></i> <span>Ahorro exclusivo frente al plan normal</span></li>
-            </ul>
-                         <a href="javascript:void(0)" 
-            onclick="enviarWhatsApp('Promo Especial $45 - 12 Meses')" 
-             class="buy-btn">
-              💎 Obtener Promo
-            </a>
-          </div>
-        </div><!-- End Pricing Item -->
-
-      </div>
 
 
       </div>
@@ -710,8 +638,7 @@
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Preguntras Frecuentes</h2>
-        <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-      </div><!-- End Section Title -->
+             </div><!-- End Section Title -->
 
       <div class="container">
 
@@ -721,50 +648,80 @@
 
             <div class="faq-container">
 
-              <div class="faq-item faq-active" data-aos="fade-up" data-aos-delay="200">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Non consectetur a erat nam at lectus urna duis?</h3>
-                <div class="faq-content">
-                  <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
+<!-- FAQ 01 -->
+<div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+  <i class="faq-icon bi bi-question-circle"></i>
+  <h3>¿Cómo recupero mi cuenta?</h3>
+  <div class="faq-content">
+    <p>Para recuperar tu cuenta puedes escribirnos a nuestro número de <b>WhatsApp</b>. 
+    Solo necesitamos que nos envíes el <b>nombre o código de tu empresa</b>, validaremos la información y te ayudaremos de inmediato con la recuperación.</p>
+  </div>
+  <i class="faq-toggle bi bi-chevron-right"></i>
+</div><!-- End Faq item-->
 
-              <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</h3>
-                <div class="faq-content">
-                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
+<!-- FAQ 02 -->
+<div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+  <i class="faq-icon bi bi-question-circle"></i>
+  <h3>¿Puedo usar la aplicación móvil gratis?</h3>
+  <div class="faq-content">
+    <p>Sí, puedes usar la aplicación de manera gratuita, aunque incluye anuncios.<br>
+    Al comenzar dispones de <b>30 días de acceso total</b>, y puedes ganar días adicionales visualizando anuncios en la opción <i>“Ganar días”</i>.<br>
+    De esta forma podrás seguir usando la app gratis, pero con algunas <b>limitaciones en las funciones premium</b>.</p>
+  </div>
+  <i class="faq-toggle bi bi-chevron-right"></i>
+</div><!-- End Faq item-->
 
-              <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
-                <div class="faq-content">
-                  <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
+<!-- FAQ 03 -->
+<div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+  <i class="faq-icon bi bi-question-circle"></i>
+  <h3>¿Qué pasa si compro la aplicación?</h3>
+  <div class="faq-content">
+    <p>Al comprar la aplicación obtendrás <b>acceso total a todas las funciones sin restricciones</b>.<br>
+    Se eliminarán los anuncios y podrás disfrutar de la app <b>sin límites de uso ni interrupciones</b>.<br>
+    Además, tendrás acceso a todas las <b>opciones premium</b>, recibirás <b>actualizaciones prioritarias</b> y una experiencia más rápida y estable.</p>
+  </div>
+  <i class="faq-toggle bi bi-chevron-right"></i>
+</div><!-- End Faq item-->
 
-              <div class="faq-item" data-aos="fade-up" data-aos-delay="500">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?</h3>
-                <div class="faq-content">
-                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
+<!-- FAQ 04 -->
+<div class="faq-item" data-aos="fade-up" data-aos-delay="400">
+  <i class="faq-icon bi bi-question-circle"></i>
+  <h3>¿Cómo funciona el periodo de prueba?</h3>
+  <div class="faq-content">
+    <p>Al registrarte recibirás automáticamente <b>30 días de acceso completo</b> a todas las funciones de la aplicación.<br>
+    Durante este periodo puedes probar sin restricciones todas las herramientas.<br>
+    Finalizado el periodo, podrás seguir utilizando la app en su versión gratuita con anuncios o acceder al plan premium para mantener todas las funciones activas.</p>
+  </div>
+  <i class="faq-toggle bi bi-chevron-right"></i>
+</div><!-- End Faq item-->
 
-              <div class="faq-item" data-aos="fade-up" data-aos-delay="600">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Tempus quam pellentesque nec nam aliquam sem et tortor consequat?</h3>
-                <div class="faq-content">
-                  <p>Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
+<!-- FAQ 05 -->
+<div class="faq-item" data-aos="fade-up" data-aos-delay="500">
+  <i class="faq-icon bi bi-question-circle"></i>
+  <h3>¿Mis datos están seguros en la aplicación?</h3>
+  <div class="faq-content">
+    <p>Sí, la seguridad de tus datos es nuestra prioridad.<br>
+    Toda la información se almacena en servidores seguros y se transmite de forma encriptada.<br>
+    Nunca compartimos tu información personal ni empresarial con terceros sin tu autorización.</p>
+  </div>
+  <i class="faq-toggle bi bi-chevron-right"></i>
+</div><!-- End Faq item-->
+
+<!-- FAQ 06 -->
+<div class="faq-item" data-aos="fade-up" data-aos-delay="600">
+  <i class="faq-icon bi bi-question-circle"></i>
+  <h3>¿Puedo usar la aplicación en varios dispositivos?</h3>
+  <div class="faq-content">
+    <p>Sí, puedes acceder a tu cuenta desde distintos dispositivos (teléfono o tablet).<br>
+    Solo necesitas iniciar sesión con tus credenciales y la información se sincronizará automáticamente.</p>
+  </div>
+  <i class="faq-toggle bi bi-chevron-right"></i>
+</div><!-- End Faq item-->
+
+
+
+
+
 
             </div>
 
@@ -866,31 +823,31 @@
               <div class="row gy-4">
 
                 <div class="col-md-6">
-                  <label for="name-field" class="pb-2">Your Name</label>
+                  <label for="name-field" class="pb-2">Nombre</label>
                   <input type="text" name="name" id="name-field" class="form-control" required="">
                 </div>
 
                 <div class="col-md-6">
-                  <label for="email-field" class="pb-2">Your Email</label>
+                  <label for="email-field" class="pb-2">Email</label>
                   <input type="email" class="form-control" name="email" id="email-field" required="">
                 </div>
 
                 <div class="col-md-12">
-                  <label for="subject-field" class="pb-2">Subject</label>
+                  <label for="subject-field" class="pb-2">Asunto</label>
                   <input type="text" class="form-control" name="subject" id="subject-field" required="">
                 </div>
 
                 <div class="col-md-12">
-                  <label for="message-field" class="pb-2">Message</label>
+                  <label for="message-field" class="pb-2">Mensaje</label>
                   <textarea class="form-control" name="message" rows="10" id="message-field" required=""></textarea>
                 </div>
 
                 <div class="col-md-12 text-center">
                   <div class="loading">Loading</div>
                   <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
+                  <div class="sent-message">Tu mensaje ha sido enviado. </div>
 
-                  <button type="submit">Send Message</button>
+                  <button type="submit">Enviar</button>
                 </div>
 
               </div>
@@ -938,8 +895,11 @@
           <h4>Redes </h4>
           <p></p>
           <div class="social-links d-flex">
+            <a href="https://www.youtube.com/@TuCanal" target="_blank">
+              <i class="bi bi-youtube"></i>
+            </a>
             <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=100083172296571"><i class="bi bi-facebook"></i></a>
             <a href=""><i class="bi bi-instagram"></i></a>
             <a href=""><i class="bi bi-linkedin"></i></a>
           </div>
