@@ -62,121 +62,24 @@ $duracion = '6 Meses';
     </section>
   </main>
 
+<script>
+  const producto = <?= json_encode([
+    'titulo' => $titulo,
+    'descripcion' => $descripcion,
+    'precio' => $precio,
+    'duracion' => $duracion
+  ], JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT) ?>;
 
-  <script>
-    const producto = {
-      titulo: "<?= addslashes($titulo) ?>",
-      descripcion: "<?= addslashes($descripcion) ?>",
-      precio: "<?= $precio ?>",
-      duracion: "<?= addslashes($duracion) ?>"
-    };
+  const ipCliente = "<?= $_SERVER['REMOTE_ADDR'] ?>";
+</script>
 
-    fetch('paypal/config.php')
-      .then(res => res.json())
-      .then(config => {
-        const script = document.createElement("script");
-        script.src = `https://www.paypal.com/sdk/js?client-id=${config.client_id}&currency=USD`;
-        script.onload = () => {
-          paypal.Buttons({
-            createOrder: (data, actions) => actions.order.create({
-              purchase_units: [{
-                description: "<?= addslashes($titulo) ?> - <?= addslashes($duracion) ?>",
-                amount: {
-                  currency_code: "USD",
-                  value: "<?= $precio ?>"
-                }
-              }]
-            }),
+<!-- 1️⃣ Primero cargo paypal.js -->
+<script src="paypal/paypal.js"></script>
 
-            onApprove: (data, actions) => actions.order.capture().then(details => {
-
-              console.log("Detalles del pago:", details);
-
-              const payerName = details.payer.name.given_name + " " + details.payer.name.surname;
-
-              const fecha_pago = details.purchase_units[0].payments?.captures?.[0]?.create_time ?
-                new Date(details.purchase_units[0].payments.captures[0].create_time)
-                .toISOString().slice(0, 19).replace("T", " ") :
-                new Date().toISOString().slice(0, 19).replace("T", " ");
-
-              const moneda = details.purchase_units[0].amount.currency_code;
-
-              const producto_titulo = "<?= addslashes($titulo) ?>";
-              const producto_descripcion = "<?= addslashes($descripcion) ?>";
-              const producto_precio = details.purchase_units[0].amount.value;
-              const producto_duracion = "<?= addslashes($duracion) ?>";
-
-              const payer_id = details.payer.payer_id;
-              const payer_email = details.payer.email_address || "---";
-
-              // 🔹 Payload para backend
-              const payload = {
-                id_empresa: 1, // setea según usuario logueado
-                order_id: details.id,
-                status: details.status,
-                producto_titulo,
-                producto_descripcion,
-                producto_precio,
-                producto_duracion,
-                moneda,
-                payer_id,
-                payer_nombre: payerName,
-                payer_email,
-                fecha_pago,
-                estado_interno: "pendiente",
-                ip: "<?= $_SERVER['REMOTE_ADDR'] ?>"
-              };
-
-
-
-
-              // 🔹 Enviar a tu backend local
-              fetch("paypal/guardarPago.php", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify(payload)
-                })
-                .then(res => res.json())
-                .then(data => {
-                  console.log("Servidor respondió:", data);
-                  if (data.success) {
-                    //  alert("📌 Pago registrado con éxito ");
-                    // opcional → redirigir a página de confirmación
-
-
-                    const form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "gracias.php";
-
-
-
-                    for (const key in payload) {
-                      const input = document.createElement("input");
-                      input.type = "hidden";
-                      input.name = key;
-                      input.value = payload[key];
-                      form.appendChild(input);
-                    }
-
-                    document.body.appendChild(form);
-                    form.submit();
-                  } else {
-                    // alert("⚠️ El pago fue aprobado en PayPal pero no se guardó");
-                    console.log(data);
-                  }
-                })
-                .catch(err => console.error("Error al guardar en API:", err));
-            }),
-
-            onError: err => console.error("❌ Error en PayPal:", err)
-          }).render('#paypal-button-container');
-        };
-        document.body.appendChild(script);
-      })
-      .catch(err => console.error("Error cargando config.php:", err));
-  </script>
+<!-- 2️⃣ Después lo llamo -->
+<script>
+  initPayPal(producto, ipCliente);
+</script>
 
 </body>
 
