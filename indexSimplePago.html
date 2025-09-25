@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>PagMe - Pago con PayPal</title>
+</head>
+<body>
+
+  <h2>Pagar con PayPal</h2>
+  <div id="paypal-button-container"></div>
+
+  <script>
+  fetch('paypal/config.php')
+    .then(res => res.json())
+    .then(config => {
+      const script = document.createElement("script");
+      script.src = `https://www.paypal.com/sdk/js?client-id=${config.client_id}&currency=USD`;
+      script.onload = () => {
+        console.log("✅ PayPal SDK cargado");
+
+        // ahora sí cargo paypal.js
+        const js = document.createElement("script");
+        js.src = "paypal/paypal.js";
+        document.body.appendChild(js);
+      };
+      document.body.appendChild(script);
+    })
+    .catch(err => console.error("Error cargando config.php:", err));
+  </script>
+
+</body>
+</html>
