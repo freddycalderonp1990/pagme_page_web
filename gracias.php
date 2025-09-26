@@ -68,9 +68,7 @@ $fecha_pago = $_POST['fecha_pago'] ?? date("Y-m-d H:i:s");
           <button type="submit" class="btn btn-dark">Descargar Recibo PDF</button>
         </form>
 
-        <a href="index.html" class="btn btn-outline-dark">
-          Volver al Inicio
-        </a>
+   
       </div>
     </div>
   </main>

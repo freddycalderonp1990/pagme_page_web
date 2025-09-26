@@ -1,23 +1,36 @@
 <?php
 // Seguridad básica
-$titulo = $_POST['titulo'] ?? 'Producto sin título';
-$descripcion = $_POST['descripcion'] ?? 'Sin descripción';
-$precio = $_POST['precio'] ?? '0.00';
-$duracion = $_POST['duracion'] ?? 'N/A';
-$token = $_POST['token'] ?? '';
+$titulo = $_GET['titulo'] ?? 'Producto sin título';
+$descripcion = $_GET['descripcion'] ?? 'Sin descripción';
+$precio = $_GET['precio'] ?? '0.00';
+$duracion = $_GET['duracion'] ?? 'N/A';
+$token = $_GET['token'] ?? '';
+
+  $titulo= 'PAGOS DESDE APP';
+  $precio= '10.0';
+  $duracion= '1 MES';
+  $descripcion= 'PARA PRUEBAS DESDE LA WEB';
 
 // 🔹 Verificar token HMAC
-$claveSecreta = "CLAVE_SECRETA"; // guárdala en .env
-$tokenEsperado = hash_hmac('sha256', "$precio|$duracion", $claveSecreta);
+$claveSecreta = "-CPFN-8aef9d9879896d-underpro-646654ddb-PAGME-76313ef65-freddy"; // guárdala en .env
+
+   $input=$titulo.$descripcion.$precio.$duracion;
+    $input=$claveSecreta.$input.$claveSecreta;
+
+ 
+    $tokenEsperado = hash('sha512', $input);
+
+
 
 if ($token !== $tokenEsperado) {
   //die("❌ Error: datos inválidos o manipulados.");
 }
 
+/*
 $titulo = 'Plan Pagme 6 Mese4s';
 $descripcion =  'Paga por la app descripción';
 $precio =  '10.00';
-$duracion = '6 Meses';
+$duracion = '6 Meses';*/
 
 ?>
 <!DOCTYPE html>
@@ -45,7 +58,7 @@ $duracion = '6 Meses';
             <h3 class="mb-3"><?= htmlspecialchars($titulo) ?></h3>
 
             <!-- Imagen con tamaño controlado -->
-            <img src="assets/img/logo.webp"
+            <img src="assets/img/logo2.png"
               alt="Logo PagMe"
               class="img-fluid mx-auto d-block mb-3"
               style="max-width: 120px;">
