@@ -1,29 +1,32 @@
 <?php
+
+// Cargar variables de entorno
+require_once __DIR__ . '/paypal/env_loader.php';
+
+
+
 // Seguridad básica
 $titulo = $_GET['titulo'] ?? 'Producto sin título';
 $descripcion = $_GET['descripcion'] ?? 'Sin descripción';
-$precio = $_GET['precio'] ?? '0.00';
+$precio = $_GET['precio'] ?? '10.00';
 $duracion = $_GET['duracion'] ?? 'N/A';
 $token = $_GET['token'] ?? '';
-
-  $titulo= 'PAGOS DESDE APP';
-  $precio= '10.0';
-  $duracion= '1 MES';
-  $descripcion= 'PARA PRUEBAS DESDE LA WEB';
-
-// 🔹 Verificar token HMAC
-$claveSecreta = "-CPFN-8aef9d9879896d-underpro-646654ddb-PAGME-76313ef65-freddy"; // guárdala en .env
-
-   $input=$titulo.$descripcion.$precio.$duracion;
-    $input=$claveSecreta.$input.$claveSecreta;
-
- 
-    $tokenEsperado = hash('sha512', $input);
+$idEmpresa = $_GET['idEmpresa'] ?? 1;
+$ip = $_GET['ip'] ?? $_SERVER['REMOTE_ADDR'];
 
 
 
-if ($token !== $tokenEsperado) {
-  //die("❌ Error: datos inválidos o manipulados.");
+// En PHP
+$requiredToken = filter_var($_ENV['REQUIRED_TOKEN'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
+
+if ($requiredToken) {
+  $tokenEsperado = validarToken($idEmpresa, $titulo, $descripcion, $precio, $duracion);
+
+
+  if ($token !== $tokenEsperado) {
+
+    die("❌ Error: datos inválidos o manipulados.");
+  }
 }
 
 /*
@@ -75,24 +78,25 @@ $duracion = '6 Meses';*/
     </section>
   </main>
 
-<script>
-  const producto = <?= json_encode([
-    'titulo' => $titulo,
-    'descripcion' => $descripcion,
-    'precio' => $precio,
-    'duracion' => $duracion
-  ], JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT) ?>;
+  <script>
+    const producto = <?= json_encode([
+                        'idEmpresa' => $idEmpresa,
+                        'titulo' => $titulo,
+                        'descripcion' => $descripcion,
+                        'precio' => $precio,
+                        'duracion' => $duracion,
+                        'token' => $token,
+                        'ip' => $ip
+                      ], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+  </script>
 
-  const ipCliente = "<?= $_SERVER['REMOTE_ADDR'] ?>";
-</script>
+  <!-- 1️⃣ Primero cargo paypal.js -->
+  <script src="paypal/paypal.js"></script>
 
-<!-- 1️⃣ Primero cargo paypal.js -->
-<script src="paypal/paypal.js"></script>
-
-<!-- 2️⃣ Después lo llamo -->
-<script>
-  initPayPal(producto, ipCliente);
-</script>
+  <!-- 2️⃣ Después lo llamo -->
+  <script>
+    initPayPal(producto);
+  </script>
 
 </body>
 

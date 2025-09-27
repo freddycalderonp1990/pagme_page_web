@@ -1,8 +1,8 @@
-function initPayPal(producto, ipCliente) {
+function initPayPal(producto) {
   // Mostrar loader inicial
   showLoader("Cargando PayPal...");
 
-  
+
   // 🚀 Flujo de PayPal
   fetch("paypal/config.php")
     .then(res => res.json())
@@ -12,7 +12,7 @@ function initPayPal(producto, ipCliente) {
       script.onload = () => {
         paypal.Buttons({
           createOrder: (data, actions) => {
-          //  showLoader("Creando orden en PayPal...");
+            //  showLoader("Creando orden en PayPal...");
             return actions.order.create({
               purchase_units: [{
                 description: producto.titulo + " - " + producto.duracion,
@@ -32,11 +32,16 @@ function initPayPal(producto, ipCliente) {
               const payerName = details.payer.name.given_name + " " + details.payer.name.surname;
               const fecha_pago = details.purchase_units[0].payments?.captures?.[0]?.create_time
                 ? new Date(details.purchase_units[0].payments.captures[0].create_time)
-                    .toISOString().slice(0, 19).replace("T", " ")
+                  .toISOString().slice(0, 19).replace("T", " ")
                 : new Date().toISOString().slice(0, 19).replace("T", " ");
 
+       
+
+                 const merchantIdVendedor = details.purchase_units[0].payee.merchant_id;
+
+
               const payload = {
-                id_empresa: 1,
+                id_empresa: producto.idEmpresa,
                 order_id: details.id,
                 status: details.status,
                 producto_titulo: producto.titulo,
@@ -47,9 +52,11 @@ function initPayPal(producto, ipCliente) {
                 payer_id: details.payer.payer_id,
                 payer_nombre: payerName,
                 payer_email: details.payer.email_address || "---",
-                fecha_pago,
+                fecha_pago: fecha_pago,
                 estado_interno: "pendiente",
-                ip: ipCliente
+                ip: producto.ip,
+                token: producto.token,
+                merchantIdVendedor: merchantIdVendedor
               };
 
               // Guardar en servidor
@@ -59,33 +66,58 @@ function initPayPal(producto, ipCliente) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
               })
-              .then(res => res.json())
-              .then(data => {
-                hideLoader();
-                if (data.success) {
-                  // Redirigir a gracias.php
-                  const form = document.createElement("form");
-                  form.method = "POST";
-                  form.action = "gracias.php";
-                  for (const key in payload) {
-                    const input = document.createElement("input");
-                    input.type = "hidden";
-                    input.name = key;
-                    input.value = payload[key];
-                    form.appendChild(input);
+                .then(res => res.json())
+                .then(data => {
+                  hideLoader();
+                  if (data.success) {
+                    // Redirigir a gracias.php
+                    const form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "gracias.php";
+                    for (const key in payload) {
+                      const input = document.createElement("input");
+                      input.type = "hidden";
+                      input.name = key;
+                      input.value = payload[key];
+                      form.appendChild(input);
+                    }
+                    document.body.appendChild(form);
+                    form.submit();
+                  } else {
+                    console.log("⚠️ Pago aprobado en PayPal pero error guardando:", data);
+
+
+                    const form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "error.php?motivo=guardar";
+                    for (const key in payload) {
+                      const input = document.createElement("input");
+                      input.type = "hidden";
+                      input.name = key;
+                      input.value = payload[key];
+
+
+                   
+                    }
+                        input.name = 'msj';
+                      input.value = data.api_response;
+                      form.appendChild(input);
+                    document.body.appendChild(form);
+                    form.submit();
+
+
+
+
+
+
+                  //  window.location.href = "error.php?motivo=guardar";
                   }
-                  document.body.appendChild(form);
-                  form.submit();
-                } else {
-                  console.error("⚠️ Pago aprobado en PayPal pero error guardando:", data);
-                  window.location.href = "error.php?motivo=guardar";
-                }
-              })
-              .catch(err => {
-                console.error("❌ Error al guardar:", err);
-                hideLoader();
-                window.location.href = "error.php?motivo=api";
-              });
+                })
+                .catch(err => {
+                  console.error("❌ Error al guardar:", err);
+                  hideLoader();
+                  window.location.href = "error.php?motivo=api";
+                });
             });
           },
 

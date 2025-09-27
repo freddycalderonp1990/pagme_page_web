@@ -8,6 +8,7 @@ function texto($str) {
 }
 
 // Capturar datos enviados por POST
+$id_empresa    = $_POST['id_empresa']    ?? 'N/A';
 $order_id    = $_POST['order_id']    ?? 'N/A';
 $payer_id    = $_POST['payer_id']    ?? 'N/A';
 $payer_nombre  = $_POST['payer_nombre']  ?? 'Cliente';
@@ -17,7 +18,10 @@ $descripcion = $_POST['producto_descripcion'] ?? '---';
 $precio      = $_POST['producto_precio'] ?? '0.00';
 $duracion    = $_POST['producto_duracion'] ?? '---';
 $moneda      = $_POST['moneda'] ?? 'USD';
-$fecha_pago  = $_POST['fecha_pago'] ?? date("Y-m-d H:i:s");
+$fecha_pago  = $_POST['fecha_pago'] ?? '';
+$merchantIdVendedor               = $_POST['merchantIdVendedor'] ?? '';
+
+
 
 // Clase PDF con cabecera y pie
 class PDF extends FPDF {
@@ -67,8 +71,10 @@ $pdf->SetTextColor(0,0,0);
 $pdf->SetDrawColor(38, 38, 38); // bordes gris oscuro
 
 $rows = [
+     'ID Empresa:'      => $id_empresa,
     'ID de Pago:'      => $order_id,
-    'ID del Pagador:'  => $payer_id,
+    'ID del Cliente:'  => $payer_id,
+    'ID del Vendedor:'  => $merchantIdVendedor,
     'Nombre:'          => $payer_nombre,
     'Email:'           => $payer_email,
     'Producto:'        => $producto,
@@ -84,4 +90,4 @@ foreach ($rows as $campo => $valor) {
 }
 
 // Descargar
-$pdf->Output("D", "Recibo_Pago_{$order_id}.pdf");
+$pdf->Output("I", "Recibo_Pago_{$order_id}.pdf");
