@@ -19,7 +19,7 @@ $precio      = $_POST['producto_precio'] ?? '0.00';
 $duracion    = $_POST['producto_duracion'] ?? '---';
 $moneda      = $_POST['moneda'] ?? 'USD';
 $fecha_pago  = $_POST['fecha_pago'] ?? '';
-$merchantIdVendedor               = $_POST['merchantIdVendedor'] ?? '';
+$merchantIdVendedor = $_POST['merchantIdVendedor'] ?? '';
 
 
 

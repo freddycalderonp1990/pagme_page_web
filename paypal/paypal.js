@@ -2,7 +2,6 @@ function initPayPal(producto) {
   // Mostrar loader inicial
   showLoader("Cargando PayPal...");
 
-
   // 🚀 Flujo de PayPal
   fetch("paypal/config.php")
     .then(res => res.json())
@@ -12,7 +11,6 @@ function initPayPal(producto) {
       script.onload = () => {
         paypal.Buttons({
           createOrder: (data, actions) => {
-            //  showLoader("Creando orden en PayPal...");
             return actions.order.create({
               purchase_units: [{
                 description: producto.titulo + " - " + producto.duracion,
@@ -35,10 +33,7 @@ function initPayPal(producto) {
                   .toISOString().slice(0, 19).replace("T", " ")
                 : new Date().toISOString().slice(0, 19).replace("T", " ");
 
-       
-
-                 const merchantIdVendedor = details.purchase_units[0].payee.merchant_id;
-
+              const merchantIdVendedor = details.purchase_units[0].payee.merchant_id;
 
               const payload = {
                 id_empresa: producto.idEmpresa,
@@ -51,7 +46,7 @@ function initPayPal(producto) {
                 moneda: details.purchase_units[0].amount.currency_code,
                 payer_id: details.payer.payer_id,
                 payer_nombre: payerName,
-                payer_email: details.payer.email_address || "---",
+                payer_email: details.payer.email_address || "----",
                 fecha_pago: fecha_pago,
                 estado_interno: "pendiente",
                 ip: producto.ip,
@@ -59,64 +54,92 @@ function initPayPal(producto) {
                 merchantIdVendedor: merchantIdVendedor
               };
 
-              // Guardar en servidor
+              // Formulario oculto para redirección a gracias.php
+              const form = document.createElement("form");
+              form.method = "POST";
+              form.action = "gracias.php";
+
+              // Añadir payload al form
+              for (const key in payload) {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = payload[key];
+                form.appendChild(input);
+              }
+
+              // Enviar a backend
               showLoader("Guardando tu pago...");
               fetch("paypal/guardarPago.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
               })
-                .then(res => res.json())
-                .then(data => {
-                  hideLoader();
-                  if (data.success) {
-                    // Redirigir a gracias.php
-                    const form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "gracias.php";
-                    for (const key in payload) {
-                      const input = document.createElement("input");
-                      input.type = "hidden";
-                      input.name = key;
-                      input.value = payload[key];
-                      form.appendChild(input);
-                    }
-                    document.body.appendChild(form);
-                    form.submit();
-                  } else {
-                    console.log("⚠️ Pago aprobado en PayPal pero error guardando:", data);
-
-
-                    const form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "error.php?motivo=guardar";
-                    for (const key in payload) {
-                      const input = document.createElement("input");
-                      input.type = "hidden";
-                      input.name = key;
-                      input.value = payload[key];
-
-
-                   
-                    }
-                        input.name = 'msj';
-                      input.value = data.api_response;
-                      form.appendChild(input);
-                    document.body.appendChild(form);
-                    form.submit();
-
-
-
-
-
-
-                  //  window.location.href = "error.php?motivo=guardar";
+                .then(async res => {
+                  const text = await res.text();
+                  console.log("Respuesta cruda:", text);
+                  try {
+                    return JSON.parse(text);
+                  } catch (e) {
+                    throw new Error("Respuesta inválida: " + text);
                   }
                 })
-                .catch(err => {
-                  console.error("❌ Error al guardar:", err);
+                .then(data => {
                   hideLoader();
-                  window.location.href = "error.php?motivo=api";
+
+                  // Input msj
+                  const inputMsj = document.createElement("input");
+                  inputMsj.type = "hidden";
+                  inputMsj.name = "msj";
+                  inputMsj.value = data.success
+                    ? ""
+                    : "Pago aprobado en PayPal pero no pudo ser guardado - " + (data.message || "Error desconocido");
+                  form.appendChild(inputMsj);
+
+                  // Input emailEnviado
+                  const inputEmail = document.createElement("input");
+                  inputEmail.type = "hidden";
+                  inputEmail.name = "emailEnviado";
+                  inputEmail.value = data.emailEnviado; // true o false
+                  form.appendChild(inputEmail);
+
+                  // Input idPagoPaypal
+                  const inputIdPago = document.createElement("input");
+                  inputIdPago.type = "hidden";
+                  inputIdPago.name = "idPagoPaypal";
+                  inputIdPago.value = data.success ? data.idPagoPaypal : 0;
+                  form.appendChild(inputIdPago);
+
+                  // Reforzar token en el form
+                  const inputToken = document.createElement("input");
+                  inputToken.type = "hidden";
+                  inputToken.name = "token";
+                  inputToken.value = payload.token;
+                  form.appendChild(inputToken);
+
+                  // Agregar form y enviar
+                  document.body.appendChild(form);
+                  form.submit();
+                })
+                .catch(err => {
+                  hideLoader();
+
+                  // Input msj
+                  const inputMsj = document.createElement("input");
+                  inputMsj.type = "hidden";
+                  inputMsj.name = "msj";
+                  inputMsj.value = "Pago aprobado en PayPal pero no pudo ser guardado (catch) - " + (err.message || err.toString());
+                  form.appendChild(inputMsj);
+
+                  // Reforzar token también en el catch
+                  const inputToken = document.createElement("input");
+                  inputToken.type = "hidden";
+                  inputToken.name = "token";
+                  inputToken.value = payload.token;
+                  form.appendChild(inputToken);
+
+                  document.body.appendChild(form);
+                 form.submit();
                 });
             });
           },
@@ -139,7 +162,7 @@ function initPayPal(producto) {
     });
 }
 
-// Loader básico (puedes reemplazarlo por un spinner más pro)
+// Loader básico
 function showLoader(mensaje = "Procesando pago...") {
   let loader = document.getElementById("loaderPago");
   if (!loader) {

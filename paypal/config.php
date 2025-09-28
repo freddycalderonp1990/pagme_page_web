@@ -1,7 +1,9 @@
 <?php
 header("Content-Type: application/json");
 
-require_once __DIR__ . '/env_loader.php';
+require_once __DIR__ . '/../config/env_loader.php';
+
+
 
 
 // Responder JSON

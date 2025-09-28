@@ -1,7 +1,7 @@
 <?php
 
 // Cargar variables de entorno
-require_once __DIR__ . '/paypal/env_loader.php';
+require_once __DIR__ . '/config/env_loader.php';
 
 
 
@@ -16,17 +16,30 @@ $ip = $_GET['ip'] ?? $_SERVER['REMOTE_ADDR'];
 
 
 
+
+// Seguridad básica
+$titulo      = "PAGOS DESDE APP";
+$descripcion = "PARA PRUEBAS DESDE LA WEB";
+$precio      = "8.0";
+$duracion    = "1 MES";
+$token       = "7d02c772bec1e2117ba978f0f6d9e2408569dfb73a90e51164ad7d77a06da059ad24d2037a401ecd3e9cefda5cfb28ae82b69df94c6a9a53d35a67ceee9049b";
+$idEmpresa   = "10";
+$ip          = "mi ip";
+
+
+
+
 // En PHP
 $requiredToken = filter_var($_ENV['REQUIRED_TOKEN'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
 
 if ($requiredToken) {
-  $tokenEsperado = validarToken($idEmpresa, $titulo, $descripcion, $precio, $duracion);
+ /* $tokenEsperado = generateSha512($idEmpresa, $titulo, $descripcion, $precio, $duracion);
 
 
   if ($token !== $tokenEsperado) {
 
-    die("❌ Error: datos inválidos o manipulados.");
-  }
+   // die("❌ Error: datos inválidos o manipulados.");
+  }*/
 }
 
 /*

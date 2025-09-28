@@ -1,6 +1,8 @@
 <?php
 // Cargar variables de entorno
-require_once __DIR__ . '/paypal/env_loader.php';
+require_once __DIR__ . '/config/env_loader.php';
+require_once __DIR__ . '/services/PagoValidator.php';
+
 
 // archivo gracias.php
 
@@ -26,26 +28,21 @@ $ipCliente           = $data['ip'] ?? $_SERVER['REMOTE_ADDR'];
 $token               = $data['token'] ?? '';
 $merchantIdVendedor               = $data['merchantIdVendedor'] ?? '';
 
+$msj = $data['msj'] ?? '';
+
+$emailEnviado = $data['emailEnviado'] ?? false;
+
+$idPagoPaypal = $data['idPagoPaypal'] ?? 0;
 
 
-$requiredToken = filter_var($_ENV['REQUIRED_TOKEN'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
 
-if ($requiredToken) {
 
-  $tokenEsperado = validarToken(
-    $idEmpresa,
-    $productoTitulo,
-    $productoDescripcion,
-    $productoPrecio,
-    $productoDuracion
-  );
-
-  if ($token !== $tokenEsperado) {
+if (!PagoValidator::validarToken($data)) {
     http_response_code(401);
 
     die("❌ Error: datos inválidos o manipulados.");
     exit;
-  }
+  
 }
 ?>
 <!DOCTYPE html>
@@ -86,8 +83,40 @@ if ($requiredToken) {
         <strong>Producto:</strong> <?= htmlspecialchars($productoTitulo) ?><br>
         <strong>Precio:</strong> <?= htmlspecialchars($productoPrecio) . " " . htmlspecialchars($moneda) ?><br>
         <strong>Duración:</strong> <?= htmlspecialchars($productoDuracion) ?><br>
-        <strong>Fecha de Pago:</strong> <?= htmlspecialchars($fechaPago) ?>
+        <strong>Fecha de Pago:</strong> <?= htmlspecialchars($fechaPago) ?><br>
+
+          <strong>ID Pago Interno:</strong> <?= htmlspecialchars($idPagoPaypal) ?>
+
+        
       </div>
+
+
+
+
+
+      <?php if ($emailEnviado === "true" || $emailEnviado === true): ?>
+        <div class="alert alert-success text-start mt-3">
+          ✅ El recibo de pago ha sido enviado a tu correo:
+          <strong><?= htmlspecialchars($payerEmail) ?></strong>.
+          Por favor revisa tu bandeja de entrada (y la carpeta de spam si no lo encuentras).
+        </div>
+      <?php else: ?>
+        <div class="alert alert-danger text-start mt-3">
+          ⚠️ Tu pago fue aprobado, pero no pudimos enviar el recibo al correo electrónico
+          <strong><?= htmlspecialchars($payerEmail) ?></strong>.
+          Puedes realizar una captura para su respaldo
+        </div>
+      <?php endif; ?>
+
+
+      <?php if (!empty($msj)): ?>
+        <div class="alert alert-warning text-start mt-3">
+          <strong>Observación:</strong><br>
+          <?= htmlspecialchars($msj) ?>
+        </div>
+      <?php endif; ?>
+
+
 
       <div class="d-flex justify-content-center gap-3 mt-4">
         <!-- Formulario para generar PDF -->
@@ -104,7 +133,7 @@ if ($requiredToken) {
           <input type="hidden" name="producto_duracion" value="<?= htmlspecialchars($productoDuracion) ?>">
           <input type="hidden" name="moneda" value="<?= htmlspecialchars($moneda) ?>">
           <input type="hidden" name="fecha_pago" value="<?= htmlspecialchars($fechaPago) ?>">
-          <button type="submit" class="btn btn-dark">Descargar Recibo PDF</button>
+
         </form>
       </div>
     </div>
