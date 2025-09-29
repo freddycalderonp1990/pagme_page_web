@@ -50,7 +50,13 @@ function generateSha512($idEmpresa,$titulo, $descripcion, $precio, $duracion)
     $claveSecreta = $_ENV["KEY_SECRET"]; // guárdala en .env
 
     $input =$idEmpresa. $titulo . $descripcion . $duracion;
+
+        $input = trim($input);
+    $input = preg_replace('/\s+/', '', $input);
+
     $input = $claveSecreta . $input . $claveSecreta;
+
+
 
 
 

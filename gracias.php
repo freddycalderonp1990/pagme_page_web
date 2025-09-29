@@ -34,7 +34,10 @@ $emailEnviado = $data['emailEnviado'] ?? false;
 
 $idPagoPaypal = $data['idPagoPaypal'] ?? 0;
 
-
+if(strlen( $orderId)<5){
+    http_response_code(404);
+    exit;
+}
 
 
 if (!PagoValidator::validarToken($data)) {

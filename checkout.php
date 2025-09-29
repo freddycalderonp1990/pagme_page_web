@@ -2,6 +2,7 @@
 
 // Cargar variables de entorno
 require_once __DIR__ . '/config/env_loader.php';
+require_once __DIR__ . '/services/PagoValidator.php';
 
 
 
@@ -18,35 +19,29 @@ $ip = $_GET['ip'] ?? $_SERVER['REMOTE_ADDR'];
 
 
 // Seguridad básica
+/*
 $titulo      = "PAGOS DESDE APP";
 $descripcion = "PARA PRUEBAS DESDE LA WEB";
 $precio      = "8.0";
 $duracion    = "1 MES";
-$token       = "7d02c772bec1e2117ba978f0f6d9e2408569dfb73a90e51164ad7d77a06da059ad24d2037a401ecd3e9cefda5cfb28ae82b69df94c6a9a53d35a67ceee9049b";
+$token       = "1196fbc7aa5845df2cac52b7284056742d310de48ce7260c70f332c1f727d0c184f39f5de3411eb5e661c68df35842e8884343890ee59c6f8f25e870d93144e1";
 $idEmpresa   = "10";
-$ip          = "mi ip";
+$ip          = "mi ip";*/
+
+$dataValidar['id_empresa'] = $idEmpresa;
+$dataValidar['producto_titulo'] = $titulo;
+$dataValidar['producto_descripcion'] = $descripcion;
+$dataValidar['producto_precio'] = $precio;
+$dataValidar['producto_duracion'] = $duracion;
+$dataValidar['token'] = $token;
 
 
-
-
-// En PHP
-$requiredToken = filter_var($_ENV['REQUIRED_TOKEN'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
-
-if ($requiredToken) {
- /* $tokenEsperado = generateSha512($idEmpresa, $titulo, $descripcion, $precio, $duracion);
-
-
-  if ($token !== $tokenEsperado) {
-
-   // die("❌ Error: datos inválidos o manipulados.");
-  }*/
+if (!PagoValidator::validarToken($dataValidar)) {
+  die("❌ Error: datos inválidos o manipulados.");
 }
 
-/*
-$titulo = 'Plan Pagme 6 Mese4s';
-$descripcion =  'Paga por la app descripción';
-$precio =  '10.00';
-$duracion = '6 Meses';*/
+
+
 
 ?>
 <!DOCTYPE html>
