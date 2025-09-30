@@ -26,7 +26,7 @@ $fechaPago           = $data['fecha_pago'] ?? '';
 $estadoInterno       = $data['estado_interno'] ?? 'pendiente';
 $ipCliente           = $data['ip'] ?? $_SERVER['REMOTE_ADDR'];
 $token               = $data['token'] ?? '';
-$merchantIdVendedor               = $data['merchantIdVendedor'] ?? '';
+$id_vendedor               = $data['id_vendedor'] ?? '';
 
 $msj = $data['msj'] ?? '';
 
@@ -81,7 +81,7 @@ if (!PagoValidator::validarToken($data)) {
         <strong>ID de Empresa:</strong> <?= htmlspecialchars($idEmpresa) ?><br>
         <strong>ID de Pago:</strong> <?= htmlspecialchars($orderId) ?><br>
         <strong>ID del Cliente:</strong> <?= htmlspecialchars($payerId) ?><br>
-        <strong>ID Vendedor:</strong> <?= htmlspecialchars($merchantIdVendedor) ?><br>
+        <strong>ID Vendedor:</strong> <?= htmlspecialchars($id_vendedor) ?><br>
         <strong>Email:</strong> <?= htmlspecialchars($payerEmail) ?><br>
         <strong>Producto:</strong> <?= htmlspecialchars($productoTitulo) ?><br>
         <strong>Precio:</strong> <?= htmlspecialchars($productoPrecio) . " " . htmlspecialchars($moneda) ?><br>
@@ -127,7 +127,7 @@ if (!PagoValidator::validarToken($data)) {
           <input type="hidden" name="id_empresa" value="<?= htmlspecialchars($idEmpresa) ?>">
           <input type="hidden" name="order_id" value="<?= htmlspecialchars($orderId) ?>">
           <input type="hidden" name="payer_id" value="<?= htmlspecialchars($payerId) ?>">
-          <input type="hidden" name="merchantIdVendedor" value="<?= htmlspecialchars($merchantIdVendedor) ?>">
+          <input type="hidden" name="id_vendedor" value="<?= htmlspecialchars($id_vendedor) ?>">
           <input type="hidden" name="payer_nombre" value="<?= htmlspecialchars($payerNombre) ?>">
           <input type="hidden" name="payer_email" value="<?= htmlspecialchars($payerEmail) ?>">
           <input type="hidden" name="producto_titulo" value="<?= htmlspecialchars($productoTitulo) ?>">

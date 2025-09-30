@@ -51,7 +51,7 @@ function initPayPal(producto) {
                 estado_interno: "pendiente",
                 ip: producto.ip,
                 token: producto.token,
-                merchantIdVendedor: merchantIdVendedor
+                id_vendedor: merchantIdVendedor
               };
 
               // Formulario oculto para redirección a gracias.php

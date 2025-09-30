@@ -16,7 +16,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 if (!$data) {
 
     http_response_code(400);
-    echo json_encode(["success"=>false,"status_code"=>400,"message"=>"No se recibieron datos válidos"]);
+    echo json_encode(["success" => false, "status_code" => 400, "message" => "No se recibieron datos válidos"]);
     exit;
 }
 
@@ -24,12 +24,12 @@ if (!$data) {
 // Validaciones
 if (!PagoValidator::validarToken($data)) {
     http_response_code(401);
-    echo json_encode(["success"=>false,"status_code"=>401,"message"=>"No autorizado"]);
+    echo json_encode(["success" => false, "status_code" => 401, "message" => "No autorizado"]);
     exit;
 }
 if (!PagoValidator::validarEstado($data['status'] ?? '')) {
     http_response_code(400);
-    echo json_encode(["success"=>false,"status_code"=>400,"message"=>"Pago inválido o incompleto"]);
+    echo json_encode(["success" => false, "status_code" => 400, "message" => "Pago inválido o incompleto"]);
     exit;
 }
 
@@ -53,6 +53,7 @@ $rows = [
     'ID Empresa:'     => $data['id_empresa'],
     'ID de Pago:'     => $data['order_id'],
     'ID del Cliente:' => $data['payer_id'],
+    'ID Vendedor:' => $data['id_vendedor'],
     'Nombre:'         => $data['payer_nombre'],
     'Email:'          => $data['payer_email'],
     'Producto:'       => $data['producto_titulo'],
