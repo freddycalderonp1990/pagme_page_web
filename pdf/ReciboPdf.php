@@ -49,7 +49,10 @@ class ReciboPdf extends FPDF
             $pdf->Cell(120, 10, $pdf->texto($valor), 1, 1);
         }
 
-        $dir = __DIR__ . '/../storage/recibos/';
+       // $dir = __DIR__ . '/../storage/recibos/';
+
+        $dir = realpath($_SERVER["DOCUMENT_ROOT"])."/uploads/recibos_paypal/";
+
         if (!is_dir($dir)) mkdir($dir, 0777, true);
 
         $path = $dir . "recibo_$orderId.pdf";
