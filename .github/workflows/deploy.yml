@@ -1,0 +1,25 @@
+name: 🚀 Deploy PHP via FTP
+
+on:
+  push:
+    branches:
+      - master   # cada push a la rama main hará el deploy
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Descargar el repo
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # 2. Subir a tu hosting por FTP
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: 81.25.112.54
+          protocol: ftp
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: ./   # sube todo el repo
+          server-dir: /datos/web/  # carpeta en tu hosting
