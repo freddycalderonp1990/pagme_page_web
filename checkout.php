@@ -9,7 +9,7 @@ require_once __DIR__ . '/services/PagoValidator.php';
 
 
 
-    
+
 
 
 
@@ -17,35 +17,54 @@ require_once __DIR__ . '/services/PagoValidator.php';
 $titulo = $_GET['titulo'] ?? 'Producto sin título';
 $descripcion = $_GET['descripcion'] ?? 'Sin descripción';
 $precio = $_GET['precio'] ?? '10.00';
-$duracion = $_GET['duracion'] ?? 'N/A';
-$token = $_GET['token'] ?? '';
+$num_dias = $_GET['numDias'] ?? 30;
 $idEmpresa = $_GET['idEmpresa'] ?? 1;
 $ip = $_GET['ip'] ?? $_SERVER['REMOTE_ADDR'];
+
+$token = $_GET['token'] ?? '';
+
+
+
 
 
 
 
 // Seguridad básica
 /*
-$titulo      = "PAGOS DESDE APP";
-$descripcion = "PARA PRUEBAS DESDE LA WEB";
+$titulo      = "Plan Normal";
+$descripcion = "30 días";
 $precio      = "8.0";
-$duracion    = "1 MES";
-$token       = "1196fbc7aa5845df2cac52b7284056742d310de48ce7260c70f332c1f727d0c184f39f5de3411eb5e661c68df35842e8884343890ee59c6f8f25e870d93144e1";
-$idEmpresa   = "10";
+
+$num_dias       = 30;
+$token       = "c9b4fae557ea3c184bb4d8199ae12a1566e2323aaf5217a00d5311528eae90fe528816f48a4584ba416738427a98f2aa45a7b4e8ec37f74b8624e555afd348d3";
+$idEmpresa   = "1";
 $ip          = "mi ip";*/
 
 $dataValidar['id_empresa'] = $idEmpresa;
 $dataValidar['producto_titulo'] = $titulo;
 $dataValidar['producto_descripcion'] = $descripcion;
 $dataValidar['producto_precio'] = $precio;
-$dataValidar['producto_duracion'] = $duracion;
+$dataValidar['num_dias'] = $num_dias;
 $dataValidar['token'] = $token;
 
 
 if (!PagoValidator::validarToken($dataValidar)) {
   die("❌ Error: datos inválidos o manipulados.");
 }
+
+
+
+
+
+$producto = [
+    'idEmpresa'   => $idEmpresa,
+    'titulo'      => $titulo,
+    'descripcion' => $descripcion,
+    'precio'      => $precio,
+    'num_dias'    => $num_dias,
+    'token'       => $token,
+    'ip'          => $ip
+];
 
 
 
@@ -84,7 +103,7 @@ if (!PagoValidator::validarToken($dataValidar)) {
             <p class="text-muted"><?= htmlspecialchars($descripcion) ?></p>
             <p>
               <strong>Precio:</strong> <?= htmlspecialchars($precio) ?> USD<br>
-              <strong>Duración:</strong> <?= htmlspecialchars($duracion) ?>
+              <strong>Duración:</strong> <?= htmlspecialchars($num_dias) ?> Días
             </p>
             <div id="paypal-button-container" class="d-flex justify-content-center mt-3"></div>
           </div>
@@ -93,16 +112,11 @@ if (!PagoValidator::validarToken($dataValidar)) {
     </section>
   </main>
 
+  
+
   <script>
-    const producto = <?= json_encode([
-                        'idEmpresa' => $idEmpresa,
-                        'titulo' => $titulo,
-                        'descripcion' => $descripcion,
-                        'precio' => $precio,
-                        'duracion' => $duracion,
-                        'token' => $token,
-                        'ip' => $ip
-                      ], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+  const producto = <?= json_encode($producto, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+
   </script>
 
   <!-- 1️⃣ Primero cargo paypal.js -->

@@ -58,8 +58,6 @@ function generateSha512($idEmpresa,$titulo, $descripcion, $precio, $duracion)
 
 
 
-
-
     $tokenEsperado = hash('sha512', $input);
 
 

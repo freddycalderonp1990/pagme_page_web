@@ -10,12 +10,11 @@ class PagoValidator
         if (!$requiredToken) return true;
 
 
-
         $idEmpresa = $data['id_empresa'];
         $titulo = $data['producto_titulo'];
         $descripcion = $data['producto_descripcion'];
         $precio = $data['producto_precio'];
-        $duracion = $data['producto_duracion'];
+        $duracion = $data['num_dias'];
 
         $tokenEsperado = generateSha512($idEmpresa, $titulo, $descripcion, $precio, $duracion);
         

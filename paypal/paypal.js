@@ -35,6 +35,7 @@ function initPayPal(producto) {
 
               const merchantIdVendedor = details.purchase_units[0].payee.merchant_id;
 
+
               const payload = {
                 id_empresa: producto.idEmpresa,
                 order_id: details.id,
@@ -50,6 +51,7 @@ function initPayPal(producto) {
                 fecha_pago: fecha_pago,
                 estado_interno: "pendiente",
                 ip: producto.ip,
+                num_dias: producto.num_dias,
                 token: producto.token,
                 id_vendedor: merchantIdVendedor
               };

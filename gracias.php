@@ -85,7 +85,7 @@ if (!PagoValidator::validarToken($data)) {
         <strong>Email:</strong> <?= htmlspecialchars($payerEmail) ?><br>
         <strong>Producto:</strong> <?= htmlspecialchars($productoTitulo) ?><br>
         <strong>Precio:</strong> <?= htmlspecialchars($productoPrecio) . " " . htmlspecialchars($moneda) ?><br>
-        <strong>Duración:</strong> <?= htmlspecialchars($productoDuracion) ?><br>
+        <strong>Descripción:</strong> <?= htmlspecialchars($productoDescripcion) ?><br>
         <strong>Fecha de Pago:</strong> <?= htmlspecialchars($fechaPago) ?><br>
 
           <strong>ID Pago Interno:</strong> <?= htmlspecialchars($idPagoPaypal) ?>

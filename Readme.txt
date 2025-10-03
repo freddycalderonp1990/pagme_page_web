@@ -93,3 +93,4 @@ Este proyecto está configurado para que **cada push a la rama `main` (o `master
 
 ✅ Con esta configuración tu proyecto queda con **deploy continuo vía GitHub Actions + FTP**.  
 Cada vez que hagas `git push`, tu web se actualizará sola en el servidor SWPanel.  
+

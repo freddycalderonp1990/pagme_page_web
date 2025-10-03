@@ -28,6 +28,57 @@ class ReciboPdf extends FPDF
         return iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $str);
     }
 
+    function NbLines($w, $txt)
+{
+    $cw = &$this->CurrentFont['cw'];
+    if($w==0)
+        $w = $this->w - $this->rMargin - $this->x;
+    $wmax = ($w - 2 * $this->cMargin) * 1000 / $this->FontSize;
+    $s = str_replace("\r", '', (string)$txt);
+    $nb = strlen($s);
+    if($nb > 0 and $s[$nb-1] == "\n")
+        $nb--;
+    $sep = -1;
+    $i = 0;
+    $j = 0;
+    $l = 0;
+    $nl = 1;
+    while($i < $nb)
+    {
+        $c = $s[$i];
+        if($c == "\n")
+        {
+            $i++;
+            $sep = -1;
+            $j = $i;
+            $l = 0;
+            $nl++;
+            continue;
+        }
+        if($c == ' ')
+            $sep = $i;
+        $l += $cw[$c];
+        if($l > $wmax)
+        {
+            if($sep == -1)
+            {
+                if($i == $j)
+                    $i++;
+            }
+            else
+                $i = $sep + 1;
+            $sep = -1;
+            $j = $i;
+            $l = 0;
+            $nl++;
+        }
+        else
+            $i++;
+    }
+    return $nl;
+}
+
+
     public static function generar($orderId, $rows)
     {
         $pdf = new self();
@@ -43,11 +94,37 @@ class ReciboPdf extends FPDF
         $pdf->SetFont('Arial','',12);
         $pdf->SetTextColor(0,0,0);
         $pdf->SetDrawColor(38, 38, 38);
+foreach ($rows as $campo => $valor) {
+    $lineHeight = 8; 
+    $col1Width  = 60;
+    $col2Width  = 120;
 
-        foreach ($rows as $campo => $valor) {
-            $pdf->Cell(60, 10, $pdf->texto($campo), 1);
-            $pdf->Cell(120, 10, $pdf->texto($valor), 1, 1);
-        }
+    // calcular el número de líneas que ocupará cada texto
+    $nb1 = $pdf->NbLines($col1Width, $pdf->texto($campo));
+    $nb2 = $pdf->NbLines($col2Width, $pdf->texto($valor));
+    $nb  = max($nb1, $nb2); // mayor número de líneas
+
+    $rowHeight = $lineHeight * $nb;
+    $x = $pdf->GetX();
+    $y = $pdf->GetY();
+
+    // --- Columna 1 (Campo) ---
+    $pdf->Rect($x, $y, $col1Width, $rowHeight); // marco
+    $pdf->MultiCell($col1Width, $lineHeight, $pdf->texto($campo), 0, 'L');
+    
+    // volver a la esquina superior derecha de la celda 1
+    $pdf->SetXY($x + $col1Width, $y);
+
+    // --- Columna 2 (Detalle) ---
+    $pdf->Rect($x + $col1Width, $y, $col2Width, $rowHeight); // marco
+    $pdf->MultiCell($col2Width, $lineHeight, $pdf->texto($valor), 0, 'L');
+
+    // saltar a la siguiente fila completa
+    $pdf->SetXY($x, $y + $rowHeight);
+}
+
+
+
 
        // $dir = __DIR__ . '/../storage/recibos/';
 

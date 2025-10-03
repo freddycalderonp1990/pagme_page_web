@@ -21,7 +21,6 @@ $mensaje = $mensajes[$motivo] ?? 'Ocurrió un error inesperado en el proceso de 
 $data = $_POST;
 
 
-
 // Variables del payload
 $idEmpresa           = $data['id_empresa'] ?? 1;
 $orderId             = $data['order_id'] ?? '';
@@ -41,7 +40,9 @@ $ipCliente           = $data['ip'] ?? $_SERVER['REMOTE_ADDR'];
 $token               = $data['token'] ?? '';
 $merchantIdVendedor               = $data['merchantIdVendedor'] ?? '';
 
-$msj               = $data['msj'] ?? 'no llega';
+$msj                 = $data['msj'] ?? 'no llega';
+
+
 
 
 
