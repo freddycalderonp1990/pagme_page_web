@@ -1,4 +1,7 @@
 <?php
+
+
+
 header("Content-Type: application/json");
 
 require_once __DIR__ . '/../config/env_loader.php';
@@ -50,7 +53,8 @@ if ($httpCode === 200 && $response) {
    2. GENERAR RECIBO PDF (usando el ID si existe)
 ======================================================= */
 
-function limpiarTexto($texto) {
+function limpiarTexto($texto)
+{
     return PagoService::limpiarTexto($texto);
 }
 
@@ -62,7 +66,7 @@ $rows = [
     'ID Vendedor:'    => $data['id_vendedor'],
     'Nombre:'         => $data['payer_nombre'],
     'Email:'          => $data['payer_email'],
-    'Producto:'       => limpiarTexto( $data['producto_titulo']),
+    'Producto:'       => limpiarTexto($data['producto_titulo']),
     'Descripción:'    => limpiarTexto($data['producto_descripcion']),
     'Precio:'         => $data['producto_precio'] . " " . $data['moneda'],
     'Duración:'       => $data['num_dias'],
@@ -77,90 +81,35 @@ $reciboPath = ReciboPdf::generar($data['order_id'], $rows);
 /* =======================================================
    3. ENVIAR CORREO
 ======================================================= */
-$body = "
-<!DOCTYPE html>
-<html lang='es'>
-<head>
-  <meta charset='UTF-8'>
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: #f4f6f8;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    .header {
-      background: #195ba6; /* Azul institucional */
-      padding: 20px;
-      text-align: center;
-      color: #fff;
-    }
-    .header img {
-      max-height: 50px;
-      margin-bottom: 10px;
-    }
-    .content {
-      padding: 20px;
-      color: #333;
-      line-height: 1.6;
-    }
-    .content h3 {
-      color: #195ba6;
-      margin-top: 0;
-    }
-    .info {
-      background: #f9fafc;
-      border: 1px solid #e0e0e0;
-      padding: 15px;
-      border-radius: 6px;
-    }
-    .info p {
-      margin: 8px 0;
-    }
-    .footer {
-      background: #f4f6f8;
-      text-align: center;
-      padding: 15px;
-      font-size: 12px;
-      color: #777;
-    }
-  </style>
-</head>
-<body>
-  <div class='container'>
-    <div class='header'>
-      <img src='https://underpropagme.xyz/assets/img/logo.png' alt='PagMe Logo'>
-      <h2>PagMe</h2>
-    </div>
-    <div class='content'>
-      <h3>Gracias por tu pago en PagMe</h3>
-      <div class='info'>
-        <p><strong>Cliente:</strong> {$data['payer_nombre']}</p>
-        <p><strong>Producto:</strong> {$data['producto_titulo']}</p>
-        <p><strong>Monto:</strong> {$data['producto_precio']} {$data['moneda']}</p>
-        <p><strong>Fecha:</strong> {$data['fecha_pago']}</p>
-      </div>
-      <p>Adjunto encontrarás tu recibo en PDF.</p>
-    </div>
-    <div class='footer'>
-      © ".date("Y")." PagMe. Todos los derechos reservados.
-    </div>
-  </div>
-</body>
-</html>
-";
+
+$qrEndpoint = $_ENV['QR_ENDPOINT'];
+
+// 1️⃣ Cargar el archivo HTML como texto
+$template = file_get_contents(__DIR__ . '/templates/email_template.html');
+
+
+$qrUrl = "{$qrEndpoint}?id={$data['order_id']}";
+
+// 2️⃣ Reemplazar los valores
+$reemplazos = [
+    '{{order_id}}'    => $data['order_id'],
+    '{{payer_nombre}}'    => $data['payer_nombre'],
+    '{{producto_titulo}}' => $data['producto_titulo'],
+    '{{producto_precio}}' => $data['producto_precio'],
+    '{{moneda}}'          => $data['moneda'],
+    '{{fecha_pago}}'      => $data['fecha_pago'],
+    '{{QR_URL}}'      =>  $qrUrl,
+    '{{URL_LOGO}}'      =>  $_ENV['URL_LOGO'],
+    '{{anio}}'            => date('Y')
+];
+
+$body = strtr($template, $reemplazos);
+
+
 
 
 $emailEnviado = Mailer::send(
-    $data['payer_email'],
+    "freddycalderon1990@gmail.com",
     $data['payer_nombre'],
     "Recibo de tu pago - Orden {$data['order_id']}",
     $body,
