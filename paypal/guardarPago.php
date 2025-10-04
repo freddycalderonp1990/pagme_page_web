@@ -106,10 +106,15 @@ $reemplazos = [
 $body = strtr($template, $reemplazos);
 
 
+$ambiente = $_ENV['AMBIENTE'];
+$email=$data['payer_email'];
+if(strtolower($ambiente)=="prod"){
+    $email="freddycalderon1990@gmail.com";
+}
 
 
 $emailEnviado = Mailer::send(
-    "freddycalderon1990@gmail.com",
+    $email,
     $data['payer_nombre'],
     "Recibo de tu pago - Orden {$data['order_id']}",
     $body,
