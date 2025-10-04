@@ -8,7 +8,7 @@ use Endroid\QrCode\Color\Color;
 use Endroid\QrCode\Logo\Logo;
 
 // 🔹 Recibir el ID del pago (por GET o ejemplo fijo)
-$idPago = isset($_GET['id']) ? (int)$_GET['id'] : 12345;
+$idPago = isset($_GET['id']) ? (String)$_GET['id'] : "12345";
 
 
 

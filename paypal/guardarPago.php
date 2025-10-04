@@ -88,7 +88,7 @@ $qrEndpoint = $_ENV['QR_ENDPOINT'];
 $template = file_get_contents(__DIR__ . '/templates/email_template.html');
 
 
-$qrUrl = "{$qrEndpoint}?id={$$data['order_id']}";
+$qrUrl = "{$qrEndpoint}?id={$data['order_id']}";
 
 // 2️⃣ Reemplazar los valores
 $reemplazos = [
