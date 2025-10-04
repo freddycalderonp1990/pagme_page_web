@@ -5,10 +5,11 @@
 header("Content-Type: application/json");
 
 require_once __DIR__ . '/../config/env_loader.php';
-require_once __DIR__ . '/../email/Mailer.php';
+require_once __DIR__ . '/../email/mailer.php';
 require_once __DIR__ . '/../pdf/ReciboPdf.php';
 require_once __DIR__ . '/../services/PagoValidator.php';
 require_once __DIR__ . '/../services/PagoService.php';
+
 
 use App\Email\Mailer;
 
@@ -106,10 +107,16 @@ $reemplazos = [
 $body = strtr($template, $reemplazos);
 
 
+$ambiente = $_ENV['AMBIENTE'];
+$email=$data['payer_email'];
+if(strtolower($ambiente)!="prod"){
+    $email="freddycalderon1990@gmail.com";
+}
+
 
 
 $emailEnviado = Mailer::send(
-    "freddycalderon1990@gmail.com",
+    $email,
     $data['payer_nombre'],
     "Recibo de tu pago - Orden {$data['order_id']}",
     $body,

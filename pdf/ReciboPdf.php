@@ -1,4 +1,6 @@
 <?php
+
+
 require __DIR__ . '/../vendor/setasign/fpdf/fpdf.php';
 
 
@@ -157,15 +159,12 @@ class ReciboPdf extends FPDF
 
 
 
-
-
-
-
-
-
         // $dir = __DIR__ . '/../storage/recibos/';
 
         $dir = realpath($_SERVER["DOCUMENT_ROOT"]) . "/uploads/recibos_paypal/";
+
+        print_r($dir);
+        
 
         if (!is_dir($dir)) mkdir($dir, 0777, true);
 
