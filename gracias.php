@@ -4,6 +4,8 @@ require_once __DIR__ . '/config/env_loader.php';
 require_once __DIR__ . '/services/PagoValidator.php';
 
 
+
+
 // archivo gracias.php
 
 // Leer el JSON del POST

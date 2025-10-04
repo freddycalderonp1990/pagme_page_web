@@ -41,6 +41,40 @@ foreach ($lines as $line) {
     putenv("$name=$value");
 }
 
+// ==============================================
+// 🔹 Configuración dinámica según el AMBIENTE
+// ==============================================
+
+$ambiente = $_ENV['AMBIENTE'] ?? 'produccion';
+
+// URLs de entorno
+if ($ambiente === 'produccion' || $ambiente === 'prod') {
+    // ✅ PRODUCCIÓN
+    $_ENV['APP_URL'] = $_ENV['APP_URL_PROD'] ?? 'https://underpropagme.xyz';
+    $_ENV['API_URL_SAVE_PAGO'] = $_ENV['API_URL_SAVE_PAGO_PROD'] ?? '';
+
+    // Desactivar errores en producción
+    error_reporting(0);
+    ini_set('display_errors', 0);
+    ini_set('display_startup_errors', 0);
+
+} else {
+    // ✅ TEST / LOCAL
+    $_ENV['APP_URL'] = $_ENV['APP_URL_TEST'] ?? '';
+    $_ENV['API_URL_SAVE_PAGO'] = $_ENV['API_URL_SAVE_PAGO_TEST'] ?? '';
+
+    // Activar errores solo en test
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+
+    // Registrar errores en log
+    ini_set('log_errors', 1);
+    ini_set('error_log', __DIR__ . '/../logs/php_errors.log');
+}
+
+
+
 $loaded = true;
 
 

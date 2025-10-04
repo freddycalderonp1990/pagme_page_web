@@ -10,9 +10,6 @@ require_once __DIR__ . '/services/PagoValidator.php';
 
 
 
-
-
-
 // Seguridad básica
 $titulo = $_GET['titulo'] ?? 'Producto sin título';
 $descripcion = $_GET['descripcion'] ?? 'Sin descripción';
