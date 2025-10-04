@@ -34,18 +34,19 @@ $emailEnviado = $data['emailEnviado'] ?? false;
 
 $idPagoPaypal = $data['idPagoPaypal'] ?? 0;
 
-if(strlen( $orderId)<5){
-    http_response_code(404);
-    exit;
-}
+
 
 
 if (!PagoValidator::validarToken($data)) {
-    http_response_code(401);
 
-    die("❌ Error: datos inválidos o manipulados.");
+  if (strlen($orderId) < 5) {
+    http_response_code(404);
     exit;
-  
+  }
+  http_response_code(401);
+
+  die("❌ Error: datos inválidos o manipulados.");
+  exit;
 }
 ?>
 <!DOCTYPE html>
@@ -69,10 +70,14 @@ if (!PagoValidator::validarToken($data)) {
       <h2 class="mb-3">¡Pago Exitoso! 🎉</h2>
 
       <!-- Logo -->
-      <img src="assets/img/logo.png"
-        alt="Logo PagMe"
+      <img
+        src="qr/generar_qr.php?id=<?= htmlspecialchars($orderId) ?>"
+        alt="QR del pago PagMe"
         class="img-fluid mx-auto d-block mb-3"
-        style="max-width: 120px;">
+        style="width:150px; height:150px; object-fit:contain; border-radius:8px;">
+
+
+
 
       <p>Gracias por tu compra, <strong><?= htmlspecialchars($payerNombre) ?></strong>.</p>
       <p>Tu pago ha sido procesado correctamente.</p>
@@ -88,9 +93,9 @@ if (!PagoValidator::validarToken($data)) {
         <strong>Descripción:</strong> <?= htmlspecialchars($productoDescripcion) ?><br>
         <strong>Fecha de Pago:</strong> <?= htmlspecialchars($fechaPago) ?><br>
 
-          <strong>ID Pago Interno:</strong> <?= htmlspecialchars($idPagoPaypal) ?>
+        <strong>ID Pago Interno:</strong> <?= htmlspecialchars($idPagoPaypal) ?>
 
-        
+
       </div>
 
 
