@@ -3,36 +3,40 @@
 class PagoService
 {
 
-    public static function limpiarTexto($texto) {
-    return trim(preg_replace('/[^\p{L}\p{N}\p{P}\p{Z}]/u', '', $texto));
-}
+    public static function limpiarTexto($texto)
+    {
+        return trim(preg_replace('/[^\p{L}\p{N}\p{P}\p{Z}]/u', '', $texto));
+    }
 
     public static function guardarEnApi($data)
     {
 
 
-            $payload = [
-                "id_empresa"           => $data["id_empresa"],
-                "order_id"             => $data["order_id"],
-                "status"               => $data["status"],
+        $payload = [
+            "id_empresa"           => $data["id_empresa"],
+            "order_id"             => $data["order_id"],
+            "status"               => $data["status"],
 
-                "producto_titulo"      => PagoService::limpiarTexto($data["producto_titulo"]),
-                "producto_descripcion" => PagoService::limpiarTexto($data["producto_descripcion"]),
-                "producto_precio"      => $data["producto_precio"],
-               
-                "moneda"               => $data["moneda"],
+            "producto_titulo"      => PagoService::limpiarTexto($data["producto_titulo"]),
+            "producto_descripcion" => PagoService::limpiarTexto($data["producto_descripcion"]),
+            "producto_precio"      => $data["producto_precio"],
 
-                "payer_id"             => $data["payer_id"],
-                "payer_nombre"         => $data["payer_nombre"],
-                "payer_email"          => $data["payer_email"],
+            "moneda"               => $data["moneda"],
 
-                "fecha_pago"           => $data["fecha_pago"],
-                "estado_interno"       => $data["estado_interno"],
-                "id_vendedor"          => $data["id_vendedor"],
-                "num_dias"              => $data["num_dias"],
+            "payer_id"             => $data["payer_id"],
+            "payer_nombre"         => $data["payer_nombre"],
+            "payer_email"          => $data["payer_email"],
 
-                "ip"                   => $data["ip"]
-            ];
+            "fecha_pago"           => $data["fecha_pago"],
+            "estado_interno"       => $data["estado_interno"],
+            "id_vendedor"          => $data["id_vendedor"],
+            "num_dias"              => $data["num_dias"],
+
+            "tipo_plan_cupo"              => $data["tipoPlanCupon"],
+            "id_plan_cupo"              => $data["idPlanCupon"],
+
+            "ip"                   => $data["ip"]
+        ];
 
 
 

@@ -89,7 +89,11 @@ $qrEndpoint = $_ENV['QR_ENDPOINT'];
 $template = file_get_contents(__DIR__ . '/templates/email_template.html');
 
 
-$qrUrl = "{$qrEndpoint}?id={$data['order_id']}";
+
+// Construir el QR y logo desde las variables .env
+$qrUrl =$_ENV['APP_URL']. $_ENV['QR_ENDPOINT'] . '?id=' . $data['order_id'];
+
+$urlLogo=$_ENV['APP_URL']. $_ENV['URL_LOGO'];
 
 // 2️⃣ Reemplazar los valores
 $reemplazos = [
@@ -100,7 +104,7 @@ $reemplazos = [
     '{{moneda}}'          => $data['moneda'],
     '{{fecha_pago}}'      => $data['fecha_pago'],
     '{{QR_URL}}'      =>  $qrUrl,
-    '{{URL_LOGO}}'      =>  $_ENV['URL_LOGO'],
+    '{{URL_LOGO}}'      =>  $urlLogo,
     '{{anio}}'            => date('Y')
 ];
 

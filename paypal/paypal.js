@@ -37,6 +37,9 @@ function initPayPal(producto) {
 
 
               const payload = {
+
+                tipoPlanCupon: producto.tipoPlanCupon,
+                idPlanCupon: producto.idPlanCupon,
                 id_empresa: producto.idEmpresa,
                 order_id: details.id,
                 status: details.status,
@@ -141,7 +144,7 @@ function initPayPal(producto) {
                   form.appendChild(inputToken);
 
                   document.body.appendChild(form);
-                 form.submit();
+                  form.submit();
                 });
             });
           },
