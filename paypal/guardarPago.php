@@ -13,6 +13,48 @@ require_once __DIR__ . '/../services/PagoService.php';
 
 use App\Email\Mailer;
 
+
+/* =======================================================
+   🔐 MANEJO GLOBAL DE ERRORES Y EXCEPCIONES (RESPUESTA JSON)
+======================================================= */
+
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) {
+        return;
+    }
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+
+set_exception_handler(function ($e) {
+    http_response_code(500);
+    echo json_encode([
+        "success" => false,
+        "status_code" => 500,
+        "message" => "Error: " . $e->getMessage()
+            . " (Archivo: " . basename($e->getFile()) . ", línea " . $e->getLine() . ")"
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+});
+
+register_shutdown_function(function () {
+    $error = error_get_last();
+    if ($error !== null) {
+        http_response_code(500);
+        echo json_encode([
+            "success" => false,
+            "status_code" => 500,
+            "message" => "Error fatal: " . $error['message']
+                . " (Archivo: " . basename($error['file']) . ", línea " . $error['line'] . ")"
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+});
+
+
+
+
+
+
 // Recibir datos
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -91,9 +133,19 @@ $template = file_get_contents(__DIR__ . '/templates/email_template.html');
 
 
 // Construir el QR y logo desde las variables .env
-$qrUrl =$_ENV['APP_URL']. $_ENV['QR_ENDPOINT'] . '?id=' . $data['order_id'];
 
-$urlLogo=$_ENV['APP_URL']. $_ENV['URL_LOGO'];
+$ambiente = $_ENV['AMBIENTE'] ?? 'produccion';
+
+// URLs de entorno
+if ($ambiente === 'produccion' || $ambiente === 'prod') {
+    $qrUrl = $_ENV['APP_URL'] . $_ENV['QR_ENDPOINT'] . '?id=' . $data['order_id'];
+    $urlLogo = $_ENV['APP_URL'] . $_ENV['URL_LOGO'];
+} else {
+    // xq al enviar el html por correo se necesita el dominio del servidor para visualizar la imagen o el qr
+    $qrUrl = $_ENV['APP_URL_PROD'] . $_ENV['QR_ENDPOINT'] . '?id=' . $data['order_id'];
+    $urlLogo = $_ENV['APP_URL_PROD'] . $_ENV['URL_LOGO'];
+}
+
 
 // 2️⃣ Reemplazar los valores
 $reemplazos = [
@@ -111,16 +163,9 @@ $reemplazos = [
 $body = strtr($template, $reemplazos);
 
 
-$ambiente = $_ENV['AMBIENTE'];
-$email=$data['payer_email'];
-if(strtolower($ambiente)!="prod"){
-    $email="freddycalderon1990@gmail.com";
-}
-
-
 
 $emailEnviado = Mailer::send(
-    $email,
+    $data['payer_email'],
     $data['payer_nombre'],
     "Recibo de tu pago - Orden {$data['order_id']}",
     $body,
@@ -155,7 +200,7 @@ if ($httpCode === 200 && $response) {
     echo json_encode([
         "success" => false,
         "status_code" => $httpCode ?: 500,
-        "message" => "Error al registrar el pago en la API",
+        "message" => "Error al registrar el pago en la API. Verifica la conexión o la URL del servicio.",
         "api_response" => $response ?: null,
         "emailEnviado" => $emailEnviado,
         "idPagoPaypal" => $idPagoPaypal

@@ -35,7 +35,16 @@ function initPayPal(producto) {
 
               const merchantIdVendedor = details.purchase_units[0].payee.merchant_id;
 
+            
 
+              if (config.ambiente === 'produccion' || config.ambiente === 'prod') {
+                emailCliente = details.payer.email_address || "----";
+            } else {
+                emailCliente = config.email_test;
+            }
+
+            
+            
               const payload = {
 
                 tipoPlanCupon: producto.tipoPlanCupon,
@@ -50,7 +59,7 @@ function initPayPal(producto) {
                 moneda: details.purchase_units[0].amount.currency_code,
                 payer_id: details.payer.payer_id,
                 payer_nombre: payerName,
-                payer_email: details.payer.email_address || "----",
+                payer_email: emailCliente,
                 fecha_pago: fecha_pago,
                 estado_interno: "pendiente",
                 ip: producto.ip,
