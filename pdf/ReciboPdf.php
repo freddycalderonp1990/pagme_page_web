@@ -114,6 +114,14 @@ class ReciboPdf extends FPDF
             $pdf->SetFont('Arial', 'I', 9);
             $pdf->SetTextColor(150, 0, 0);
                     $pdf->Cell(0, 10, $pdf->texto('QR no disponible'), 0, 1, 'C');
+
+
+
+                    // 🔹 Mostrar el detalle del error capturado
+                    $pdf->SetFont('Arial', '', 8);
+                    $pdf->SetTextColor(255, 0, 0);
+                    $mensajeError = "Error: " . $e->getMessage();
+                    $pdf->MultiCell(0, 6, $pdf->texto($mensajeError), 0, 'C');
         }
 
 

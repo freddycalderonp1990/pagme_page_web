@@ -95,8 +95,9 @@ $producto = [
           <div class="card shadow-sm text-center p-4">
             <h3 class="mb-3"><?= htmlspecialchars($titulo) ?></h3>
 
+
             <!-- Imagen con tamaño controlado -->
-            <img src="assets/img/logoTrasparente.png"
+            <img src="assets/img/logo.png"
               alt="Logo PagMe"
               class="img-fluid mx-auto d-block mb-3"
               style="max-width: 120px;">

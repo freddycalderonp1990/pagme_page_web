@@ -11,7 +11,6 @@ use Endroid\QrCode\Logo\Logo;
 $idPago = isset($_GET['id']) ? (String)$_GET['id'] : "12345";
 
 
-
 // 🔹 Contenido del QR (usa el enlace o un texto claro)
 $url =  $idPago;
 
