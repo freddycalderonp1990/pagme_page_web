@@ -17,9 +17,11 @@ $precio = $_GET['precio'] ?? '10.00';
 $num_dias = $_GET['numDias'] ?? 30;
 $idEmpresa = $_GET['idEmpresa'] ?? 1;
 $ip = $_GET['ip'] ?? $_SERVER['REMOTE_ADDR'];
+$tipoPlanCupon = $_GET['tipo'] ?? '';
+$idPlanCupon = $_GET['id'] ?? '';
+
 
 $token = $_GET['token'] ?? '';
-
 
 
 
@@ -54,13 +56,15 @@ if (!PagoValidator::validarToken($dataValidar)) {
 
 
 $producto = [
-    'idEmpresa'   => $idEmpresa,
-    'titulo'      => $titulo,
-    'descripcion' => $descripcion,
-    'precio'      => $precio,
-    'num_dias'    => $num_dias,
-    'token'       => $token,
-    'ip'          => $ip
+  'idEmpresa'   => $idEmpresa,
+  'titulo'      => $titulo,
+  'descripcion' => $descripcion,
+  'precio'      => $precio,
+  'num_dias'    => $num_dias,
+  'token'       => $token,
+  'tipoPlanCupon'       => $tipoPlanCupon,
+  'idPlanCupon'       => $idPlanCupon,
+  'ip'          => $ip
 ];
 
 
@@ -91,8 +95,9 @@ $producto = [
           <div class="card shadow-sm text-center p-4">
             <h3 class="mb-3"><?= htmlspecialchars($titulo) ?></h3>
 
+
             <!-- Imagen con tamaño controlado -->
-            <img src="assets/img/logoTrasparente.png"
+            <img src="assets/img/logo.png"
               alt="Logo PagMe"
               class="img-fluid mx-auto d-block mb-3"
               style="max-width: 120px;">
@@ -109,11 +114,10 @@ $producto = [
     </section>
   </main>
 
-  
+
 
   <script>
-  const producto = <?= json_encode($producto, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
-
+    const producto = <?= json_encode($producto, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
   </script>
 
   <!-- 1️⃣ Primero cargo paypal.js -->
