@@ -13,7 +13,7 @@ class PagoService
 
 
         $payload = [
-            "id_empresa"           => $data["id_empresa"],
+            "id_empresas"           => $data["id_empresa"],
             "order_id"             => $data["order_id"],
             "status"               => $data["status"],
 

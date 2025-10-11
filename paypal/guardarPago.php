@@ -200,7 +200,7 @@ if ($httpCode === 200 && $response) {
     echo json_encode([
         "success" => false,
         "status_code" => $httpCode ?: 500,
-        "message" => "Error al registrar el pago en la API. Verifica la conexión o la URL del servicio.",
+        "message" => "Error al registrar el pago en la API. Verifica la conexión o la URL del servicio. $response",
         "api_response" => $response ?: null,
         "emailEnviado" => $emailEnviado,
         "idPagoPaypal" => $idPagoPaypal
