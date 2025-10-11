@@ -53,6 +53,8 @@ if ($ambiente === 'produccion' || $ambiente === 'prod') {
     $_ENV['APP_URL'] = $_ENV['APP_URL_PROD'] ?? 'https://underpropagme.xyz';
     $_ENV['API_URL_SAVE_PAGO'] = $_ENV['API_URL_SAVE_PAGO_PROD'] ?? '';
 
+        $_ENV['PAYPAL_CLIENT_ID'] = $_ENV['PAYPAL_CLIENT_ID_PROD'] ?? '';
+
     // Desactivar errores en producción
     error_reporting(0);
     ini_set('display_errors', 0);
@@ -62,6 +64,8 @@ if ($ambiente === 'produccion' || $ambiente === 'prod') {
     // ✅ TEST / LOCAL
     $_ENV['APP_URL'] = $_ENV['APP_URL_TEST'] ?? '';
     $_ENV['API_URL_SAVE_PAGO'] = $_ENV['API_URL_SAVE_PAGO_TEST'] ?? '';
+
+        $_ENV['PAYPAL_CLIENT_ID'] = $_ENV['PAYPAL_CLIENT_ID_TEST'] ?? '';
 
     // Activar errores solo en test
     error_reporting(E_ALL);
